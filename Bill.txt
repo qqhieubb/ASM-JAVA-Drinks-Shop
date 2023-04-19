@@ -1,5 +1,5 @@
-Cà phê muối x 2 = 51.40
-Bánh đậu xanh x 1 = 13.70
-Bánh bông lan x 1 = 12.30
-Coca Cola x 1 = 10.70
-Total: 88.10
+Cà phê muối x 1 = 25.70
+Cà phê sữa x 1 = 22.20
+Coca Cola x 3 = 32.10
+Bánh ngọt x 3 = 301.20
+Total: 381.20

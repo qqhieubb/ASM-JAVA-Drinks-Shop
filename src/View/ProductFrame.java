@@ -27,7 +27,10 @@ public class ProductFrame extends JFrame implements ActionListener {
         super("Product");
 
         // Set the size of the frame
+        setTitle("Product");
         setSize(1000, 500);
+         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         // Create a table with three columns: Product Name, Category, and Price
         String[] columns = {"Product Name", "Category", "Price"};

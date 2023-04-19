@@ -30,7 +30,7 @@ public class BillFrame extends JFrame {
 
     public BillFrame() {
         // Set up the JFrame
-        setTitle("Product");
+        setTitle("Bill");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
         setLocationRelativeTo(null);
@@ -109,6 +109,10 @@ public class BillFrame extends JFrame {
                 int selectedRow = cartTable.getSelectedRow();
                 if (selectedRow != -1) {
                     cartModel.removeRow(selectedRow);
+                } else {
+                    // Display error message if no row is selected
+                    JOptionPane.showMessageDialog(null, "Please select a product to delete.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
