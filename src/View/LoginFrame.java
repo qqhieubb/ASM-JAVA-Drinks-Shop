@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class LoginFrame extends JFrame implements ActionListener {
+
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton;
@@ -49,7 +50,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         loginButton.addActionListener(this);
         loginButton.setBounds(180, 160, 120, 30);
         panel.add(loginButton);
-        
+
         JButton registerButton = new JButton("Đăng ký");
         registerButton.addActionListener(new ActionListener() {
             @Override
@@ -60,7 +61,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         });
         registerButton.setBounds(320, 160, 80, 30);
         panel.add(registerButton);
-        
+
         add(panel);
         pack();
         setLocationRelativeTo(null);
@@ -70,23 +71,23 @@ public class LoginFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-        String username = usernameField.getText();
-        String password = new String(passwordField.getPassword());
+            String username = usernameField.getText();
+            String password = new String(passwordField.getPassword());
 
-        try {
-            if (username.trim().isEmpty()) {
-                throw new Exception("Vui lòng nhập tên đăng nhập.");
-            } else if (password.trim().isEmpty()) {
-                throw new Exception("Vui lòng nhập mật khẩu.");
-            } else if (checkLogin(username, password)) {
-                JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
-            } else {
-                JOptionPane.showMessageDialog(this, "Tên đăng nhập hoặc mật khẩu không đúng.");
+            try {
+                if (username.trim().isEmpty()) {
+                    throw new Exception("Vui lòng nhập tên đăng nhập.");
+                } else if (password.trim().isEmpty()) {
+                    throw new Exception("Vui lòng nhập mật khẩu.");
+                } else if (checkLogin(username, password)) {
+                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Tên đăng nhập hoặc mật khẩu không đúng.");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
-    }
     }
 
     private boolean checkLogin(String username, String password) {
@@ -97,8 +98,14 @@ public class LoginFrame extends JFrame implements ActionListener {
                 String[] fields = line.split(",");
                 if (fields.length == 5 && fields[1].equals(username) && fields[2].equals(password) && fields[4].equals("Active")) {
                     reader.close();
-                    ProductFrame productframe = new ProductFrame();
-                    productframe.setVisible(true);
+                    if (username.equals("admin")) {
+                        ProductFrame productframe = new ProductFrame();
+                        productframe.setVisible(true);
+                    } else {
+                        BillFrame billframe = new BillFrame();
+                        billframe.setVisible(true);
+                    }
+                     dispose();
                     return true;
                 }
             }

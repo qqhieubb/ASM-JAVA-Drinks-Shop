@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 public class ProductFrame extends JFrame implements ActionListener {
+
     private JTable table;
     private DefaultTableModel model;
     private JTextField productNameField;
@@ -120,36 +121,75 @@ public class ProductFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Add")) {
-            // Add a new row to the table with the data from the input fields
-            String[] data = {productNameField.getText(), categoryField.getText(), priceField.getText()};
-            model.addRow(data);
+            try {
+                // Check if any input fields are empty
+                if (productNameField.getText().isEmpty() || categoryField.getText().isEmpty() || priceField.getText().isEmpty()) {
+                    throw new Exception("Vui lòng nhập dữ liệu vào tất cả các ô");
+                }
+                // Check if product name or category contains digits
+                if (productNameField.getText().matches(".*\\d.*") || categoryField.getText().matches(".*\\d.*")) {
+                    throw new Exception("Tên và loại sản phẩm không chứa chữ số");
+                }
+                // Check if price field contains non-numeric characters
+                if (!priceField.getText().matches("\\d+(\\.\\d+)?")) {
+                    throw new Exception("Giá tiền không chứa chữ cái");
+                }
 
-            // Clear the input fields
-            productNameField.setText("");
-            categoryField.setText("");
-            priceField.setText("");
+                // Add a new row to the table with the data from the input fields
+                String[] data = {productNameField.getText(), categoryField.getText(), priceField.getText()};
+                model.addRow(data);
 
-            // Save the updated data to the file
-            saveProductData();
+                // Clear the input fields
+                productNameField.setText("");
+                categoryField.setText("");
+                priceField.setText("");
+
+                // Save the updated data to the file
+                saveProductData();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else if (e.getActionCommand().equals("Delete")) {
-            // Get the selected row and remove it from the table
-            int selectedRow = table.getSelectedRow();
-            if (selectedRow != -1) {
+            try {
+                // Check if a row is selected
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow == -1) {
+                    throw new Exception("Vui lòng chọn sản phẩm để xóa.");
+                }
+
+                // Remove the selected row from the table
                 model.removeRow(selectedRow);
 
                 // Save the updated data to the file
                 saveProductData();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else if (e.getActionCommand().equals("Update")) {
-            // Get the selected row and update its data with the data from the input fields
-            int selectedRow = table.getSelectedRow();
-            if (selectedRow != -1) {
+            try {
+                // Check if a row is selected
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow == -1) {
+                    throw new Exception("Vui lòng chọn sản phẩm để cập nhật.");
+                }
+                // Check if product name or category contains digits
+                if (productNameField.getText().matches(".*\\d.*") || categoryField.getText().matches(".*\\d.*")) {
+                    throw new Exception("Tên và loại sản phẩm không được chứa kĩ tự chữ cái.");
+                }
+                // Check if price field contains non-numeric characters
+                if (!priceField.getText().matches("\\d+(\\.\\d+)?")) {
+                    throw new Exception("Giá tiền không chữa chữ cái");
+                }
+
+                // Update the selected row with the data from the input fields
                 model.setValueAt(productNameField.getText(), selectedRow, 0);
                 model.setValueAt(categoryField.getText(), selectedRow, 1);
                 model.setValueAt(priceField.getText(), selectedRow, 2);
 
                 // Save the updated data to the file
                 saveProductData();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -158,4 +198,3 @@ public class ProductFrame extends JFrame implements ActionListener {
         new ProductFrame();
     }
 }
-
