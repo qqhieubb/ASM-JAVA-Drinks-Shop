@@ -97,8 +97,8 @@ public class LoginFrame extends JFrame implements ActionListener {
                 String[] fields = line.split(",");
                 if (fields.length == 5 && fields[1].equals(username) && fields[2].equals(password) && fields[4].equals("Active")) {
                     reader.close();
-                    ProductGUI productgui = new ProductGUI();
-                    productgui.setVisible(true);
+                    ProductFrame productframe = new ProductFrame();
+                    productframe.setVisible(true);
                     return true;
                 }
             }
